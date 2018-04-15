@@ -1,0 +1,146 @@
+[
+  {
+    "title": "La La Land",
+    "poster": "https://i.imgur.com/po7UezG.jpg",
+    "genre": "Drama/Romance",
+    "movie_id": 1,
+    "tech": "2D",
+    "duration": 120
+  },
+  {
+    "title": "Paterson",
+    "poster": "https://i.imgur.com/pE0C9E0.jpg",
+    "genre": "Drama/Comedy",
+    "movie_id": 2,
+    "tech": "2D",
+    "duration": 90
+  },
+  {
+    "title": "Jackie",
+    "poster": "https://i.imgur.com/VqUi1sw.jpg",
+    "genre": "Drama/Biography",
+    "movie_id": 3,
+    "tech": "2D",
+    "duration": 100
+  },
+  {
+    "title": "Lo and Behold Reveries of the Connected World",
+    "poster": "https://i.imgur.com/s106X7S.jpg",
+    "genre": "Documentary",
+    "movie_id": 4,
+    "tech": "2D",
+    "duration": 125
+  },
+  {
+    "title": "10 Cloverfield Lane",
+    "poster": "https://i.imgur.com/kV2BVdH.jpg",
+    "genre": "Drama",
+    "movie_id": 5,
+    "tech": "2D",
+    "duration": 95
+  },
+  {
+    "title": "Birth of a Nation",
+    "poster": "https://i.imgur.com/a6HJj8S.jpg",
+    "genre": "Fantasy/Myster",
+    "movie_id": 6,
+    "tech": "3D",
+    "duration": 110
+  },
+  {
+    "title": "De Palma",
+    "poster": "https://i.imgur.com/oOIa73M.jpg",
+    "genre": "Documentary",
+    "movie_id": 7,
+    "tech": "2D",
+    "duration": 70
+  },
+  {
+    "title": "Doctor Strange",
+    "poster": "https://i.imgur.com/kyHDVOk.jpg",
+    "genre": "Fantasy/Science Fiction",
+    "movie_id": 8,
+    "tech": "3D",
+    "duration": 65
+  },
+  {
+    "title": "Eddie the Eagle",
+    "poster": "https://i.imgur.com/GNrdAuF.jpg",
+    "genre": "Drama/Sport",
+    "movie_id": 9,
+    "tech": "2D",
+    "duration": 65
+  },
+  {
+    "title": "Pride and prejudice and zombies",
+    "poster": "https://i.imgur.com/KhbG0Lw.jpg",
+    "genre": "Thriller/Action",
+    "movie_id": 10,
+    "tech": "2D",
+    "duration": 135
+  },
+  {
+    "title": "Finding Dory",
+    "poster": "https://i.imgur.com/BTexHYJ.jpg",
+    "genre": "Comedy/Adventure",
+    "movie_id": 11,
+    "tech": "3D",
+    "duration": 125
+  },
+  {
+    "title": "Green Room",
+    "poster": "https://i.imgur.com/Q0Ysh7L.jpg",
+    "genre": "Crime/Thriller",
+    "movie_id": 12,
+    "tech": "2D",
+    "duration": 80
+  },
+  {
+    "title": "Kubo and the Two Strings",
+    "poster": "https://i.imgur.com/uTFCKZc.jpg",
+    "genre": "Fantasy/Adventure",
+    "movie_id": 13,
+    "tech": "2D",
+    "duration": 85
+  },
+  {
+    "title": "In a Valley of Violence",
+    "poster": "https://i.imgur.com/DTtJ62G.jpg",
+    "genre": "Drama/Western",
+    "movie_id": 14,
+    "tech": "2D",
+    "duration": 95
+  },
+  {
+    "title": "O.J.: Made in America",
+    "poster": "https://i.imgur.com/T8uc6x8.jpg",
+    "genre": "Documentary",
+    "movie_id": 15,
+    "tech": "2D",
+    "duration": 135
+  },
+  {
+    "title": "Rogue One: A Star Wars Story",
+    "poster": "https://i.imgur.com/zOF2iYc.jpg",
+    "genre": "Science Fiction/Action",
+    "movie_id": 16,
+    "tech": "3D",
+    "duration": 95
+  },
+  {
+    "title": "Sing Street",
+    "poster": "https://i.imgur.com/C3ExEb6.jpg",
+    "genre": "Drama/Romance",
+    "movie_id": 17,
+    "tech": "2D",
+    "duration": 100
+  },
+  {
+    "title": "Zoolander 2",
+    "poster": "https://i.imgur.com/ejlIijD.jpg",
+    "genre": "Comedy",
+    "movie_id": 18,
+    "tech": "2D",
+    "duration": 75
+  }
+]

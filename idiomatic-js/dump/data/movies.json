@@ -1,0 +1,33 @@
+[
+  {
+    "title": "La La Land",
+    "poster": "https://i.imgur.com/po7UezG.jpg",
+    "genre": "DRAMA",
+    "movie_id": 1,
+    "tech": "2D",
+    "duration": 120
+  },
+  {
+    "title": "Paterson",
+    "poster": "https://i.imgur.com/pE0C9E0.jpg",
+    "genre": "ROMANCE",
+    "movie_id": 2,
+    "tech": "2D",
+    "duration": 90
+  },
+  {
+    "title": "Jackie",
+    "poster": "https://i.imgur.com/VqUi1sw.jpg",
+    "genre": "BIOGRAPHIC",
+    "movie_id": 3,
+    "tech": "2D",
+    "duration": 100
+  },
+  {
+    "title": "Lo and Behold Reveries of the Connected World",
+    "poster": "https://i.imgur.com/s106X7S.jpg",
+    "genre": "DOCUMENTARY",
+    "movie_id": 4,
+    "tech": "2D",
+    "duration": 75
+  }]
