@@ -1,5 +1,5 @@
 'use strict';
-let bookings = require('../../../dump/data/bookings.json');
+let bookings = require('../../data_dump/bookings.json');
 
 let projectionService = require('../service/projectionService');
 
@@ -9,21 +9,20 @@ const MIN_GROUP_SIZE_FOR_DISCOUNT = 10;
 const TICKET_DETAILS_KEY = "ticket_details";
 const PROJECTION_ID_KEY = "projection_id";
 
-//todo: ex. for modification task - return projections with datetime sort order
 exports.get_all_projections = function (req, res) {
-    return {}
+    return res.json(bookigns);
 };
 
 exports.get_all_bookings = function (req, res) {
     return {}
 };
 
-exports.book = function (req, res) { //todo: make 'book' return hash of booking (id)
+exports.book = function (req, res) {
     let bookingDetails = req.body;
     let ticketQuantity = countTicketQuantity(bookingDetails[TICKET_DETAILS_KEY]);
-    let response = void 0; //IDIOM
+    let response; // UNIDIOM
     let proj = projectionService.getProjectionById(bookingDetails[PROJECTION_ID_KEY]);
-    if (areVacantSeatsAvailable(proj, ticketQuantity)) {
+    if (Boolean(areVacantSeatsAvailable(proj, ticketQuantity))) { //bezposrednia konwersja do booleana
         response = bookSeats(bookingDetails);
     }
     else {
@@ -34,7 +33,7 @@ exports.book = function (req, res) { //todo: make 'book' return hash of booking 
 };
 
 exports.get_booking_by_id = function (req, res) {
-    let bookingIdentifier = ~~req.params["bookingId"]; //IDIOM2 (konwersja)
+    let bookingIdentifier = parseInt(req.params["bookingId"]); //NOIDIOM
     let foundBooking = getBooking(bookingIdentifier);
     return res.json(foundBooking);
 };
@@ -47,21 +46,26 @@ exports.projections_from = function (req, res) {
 };
 
 exports.checkFreeSeats = function (req, res) {
-    let projId = +req.params["projectionId"]; //IDIOM
+    let projId = parseInt(req.params["projectionId"]); //NOIDIOM
     let bookedSeatsQuantity = getBookedSeatsQuantity(projId);
     let allSeats = projectionService.getPlaceNumberForProjection(projId);
     let available = allSeats - bookedSeatsQuantity;
     console.log("All seats: " + allSeats + " booked: " + bookedSeatsQuantity + "Available seats: " + available);
-    return res.json(available > 0 ? available : 0);
-
-
+    if (available < 0) { // NO halfIDIOM
+        available = 0;
+    }
+    return res.json(available);
 };
 
 function getProjectionsWithFreeSeats(datetime, howMany) {
     let projectionsWithPredicate = [];
     let projectionsAfterDatetime = projectionService.getProjectionsStartingFrom(datetime);
-    for (var i = 0, projection; projection = projectionsAfterDatetime[i]; i++) {
-        areVacantSeatsAvailable(projection, howMany) && projectionsWithPredicate.push(projection); //IDIOM projectionsWithPredicate[projectionsWithPredicate.length] = projection
+    let projection;
+    for (var i = 0; i < projectionsAfterDatetime.length; i++) { //IDIOM
+        projection = projectionsAfterDatetime[i];
+        if (areVacantSeatsAvailable(projection, howMany)) {
+            projectionsWithPredicate.push(projection); //NOIDIOM
+        }
     }
     return projectionsWithPredicate;
 }
@@ -81,14 +85,21 @@ function bookSeats(bookingRequest) {
 function getBookedSeatsQuantity(projectionId) {
     let bookingsForProjection = bookings.filter((booking) => booking.projection_id === projectionId);
     console.log("Bookings for projection: " + bookingsForProjection.length);
-    return bookingsForProjection.length ? countBookedPlaces(bookingsForProjection) : 0;
+    if (bookingsForProjection.length > 0) {
+        return countBookedPlaces(bookingsForProjection);
+    }
+    else {
+        return 0;
+    }
 }
 
 function countBookedPlaces(bookingsForProjection) {
-    let seatsNumber;
-    for (var i = 0, booking; booking = bookingsForProjection[i]; i++) {
+    let seatsNumber = 0;
+    let booking;
+    for (var i = 0; i < bookingsForProjection.length; i++) {
+        booking = bookingsForProjection[i];
         var places = countTicketQuantity(booking[TICKET_DETAILS_KEY]);
-        seatsNumber + places || (seatsNumber = 0); //seatsNumber = seatsNumber + places;
+        seatsNumber = seatsNumber + places;
         console.log(" Places for booking: " + booking[PROJECTION_ID_KEY] + " places: " + places + " seats number: " + seatsNumber);
     }
     return seatsNumber;
@@ -97,7 +108,7 @@ function countBookedPlaces(bookingsForProjection) {
 
 function calculateTotalPrice(ticketDetails, normalTicketPrice) {
     let totalCost = 0.0;
-    let totalNumOfTickets = void 0; //IDIOM
+    let totalNumOfTickets; //IDIOM
     if (totalNumOfTickets = countTicketQuantity(ticketDetails)) {
         if (totalNumOfTickets >= MIN_GROUP_SIZE_FOR_DISCOUNT) {
             totalCost = normalTicketPrice * (1.0 - ticketTypeToDiscountMap["group"]) * totalNumOfTickets;
@@ -110,15 +121,15 @@ function calculateTotalPrice(ticketDetails, normalTicketPrice) {
         }
     }
     else {
-        throw Error("There must be at least 1 ticket on resevation!");
+        throw Error("There must be at least 1 ticket on every booking!");
     }
     return totalCost;
 }
 
 function countTicketQuantity(ticketDetails) {
-    return Object.entries(ticketDetails).reduce(function (suma, ticket_type_entry) {
-        const [discount_type, quantity] = ticket_type_entry;
-        return suma + quantity;
+    return Object.entries(ticketDetails).reduce(function (totalTicketQuantity, ticketTypeEntry) {
+        const [discountType, quantity] = ticketTypeEntry;
+        return totalTicketQuantity + quantity;
     }, 0);
 }
 
@@ -126,20 +137,25 @@ function countTicketQuantity(ticketDetails) {
 function calcTicketsPrice(ticketDetails, normalTicketPrice) {
     return Object.entries(ticketDetails).reduce(function (totalCost, ticket_type_entry) {
         const [discount_type, quantity] = ticket_type_entry;
-        return totalCost + (quantity * (1.0 - ticketTypeToDiscountMap[discount_type]));
+        return totalCost + (quantity * (1.0 - ticketTypeToDiscountMap[discount_type]) * normalTicketPrice);
     }, 0);
 }
 
 function getBooking(bookingId) {
     let matchingBookings = bookings.filter((booking) => booking.booking_id === bookingId);
-    return matchingBookings.length && matchingBookings[0]; //IDIOM
+    let matchingBooking = undefined;
+    if (matchingBookings.length > 0) { //NOIDIOM
+        matchingBooking = matchingBookings[0];
+    }
+    return matchingBooking;
 }
 
 
+//todo: fragment for modification task
 function calcTotalPriceIdiom(ticketDetails, normalTicketPrice) {
-    let totalCost;
-    if (totalCost = calcTicketsPrice(ticketDetails, normalTicketPrice) && countTicketQuantity(ticketDetails) >= MIN_GROUP_SIZE_FOR_DISCOUNT) { //IDIOM
+    let totalCost = calcTicketsPrice(ticketDetails, normalTicketPrice);
+    if (totalCost && countTicketQuantity(ticketDetails) >= MIN_GROUP_SIZE_FOR_DISCOUNT) { //NOIDIOM
         //todo: add discount for group
     }
-    return totalCost || 0;
+    return totalCost;
 }

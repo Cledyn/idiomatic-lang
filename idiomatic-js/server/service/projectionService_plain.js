@@ -1,10 +1,10 @@
-let allProjections = require('../../../dump/data/projections.json');
+let allProjections = require('../../data_dump/projections.json');
 
 exports.getMoviesStartingFrom = function (startDatetime) {
     let matchingMovieIds = [];
     let matchingProjections = getProjectionsStartingFrom(startDatetime);
     for (var proj of matchingProjections) {
-        matchingMovieIds[matchingMovieIds.length] = +proj.movie_id; //add this to code analysis tasks
+        matchingMovieIds[matchingMovieIds.length] = parseInt(proj.movie_id); //NOIDIOM
     }
     console.log("Matching movie ids: " + matchingMovieIds);
     return matchingMovieIds;
@@ -22,6 +22,9 @@ exports.getProjectionsStartingFrom = function (startDatetime) {
 
 exports.getPlaceNumberForProjection = function (projectionId) {
     var projections = allProjections.filter((projection) => projection.projection_id === projectionId);
-    var placesForProjection = projections[0] && projections[0].seats; //IDIOM add to code analysis task
-    return placesForProjection || 0; //IDIOM
+    var placesForProjection = 0;
+    if (projections !== undefined && projections.length > 0) { //NOIDIOM
+        placesForProjection = projections[0].seats;
+    }
+    return placesForProjection;
 };

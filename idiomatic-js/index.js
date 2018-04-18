@@ -11,7 +11,7 @@ app.set("view options", {
     layout: false
 });
 
-var routes = require('./public/js/routing/router');
+var routes = require('./server/routing/router');
 
 app.get('/', function (req, res) {
     res.render('public/index.html');
