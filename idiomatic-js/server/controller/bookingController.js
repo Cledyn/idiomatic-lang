@@ -27,8 +27,7 @@ exports.book = function (req, res) { //todo: make 'book' return hash of booking 
         response = bookSeats(bookingDetails);
     }
     else {
-        response = {"booking_id": undefined, "total_price": undefined};
-        console.log("Cannot book tickets, not enough free seats left for this projection.");
+        throw Error("Could not book - too few seats available");
     }
     return res.json(response);
 };
